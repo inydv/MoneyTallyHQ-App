@@ -2,14 +2,14 @@ import ScreenWrapper from '@/components/ScreenWrapper'
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 
-const Profile = () => {
-    return (
-        <ScreenWrapper>
-            <Text>Profile</Text>
-        </ScreenWrapper>
-    )
+const Income = () => {
+  return (
+    <ScreenWrapper>
+      <Text>Income</Text>
+    </ScreenWrapper>
+  )
 }
 
-export default Profile
+export default Income
 
 const styles = StyleSheet.create({})

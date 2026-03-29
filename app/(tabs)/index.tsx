@@ -1,8 +1,9 @@
 import Button from '@/components/Button';
+import ScreenWrapper from '@/components/ScreenWrapper';
 import Typo from '@/components/Typo';
 import { useAuth } from '@/contexts/authContext';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
 const Home = () => {
     const { user } = useAuth();
@@ -12,12 +13,12 @@ const Home = () => {
     }
 
     return (
-        <View>
+        <ScreenWrapper>
             <Text>Home</Text>
             <Button onPress={handleLogout}>
                 <Typo>Logout</Typo>
             </Button>
-        </View>
+        </ScreenWrapper>
     )
 }
 
