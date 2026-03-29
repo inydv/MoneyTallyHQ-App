@@ -2,7 +2,7 @@ import { scale, verticalScale } from "@/utils/styling";
 
 export const colors = {
   light: "#F3F5F0",
-  BtnBg: "#428A58",
+  green: "#428A58",
   white: "#ffffff",
   black: "#000000",
 };
