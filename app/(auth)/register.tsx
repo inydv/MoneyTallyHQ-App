@@ -4,14 +4,17 @@ import Input from '@/components/Input'
 import ScreenWrapper from '@/components/ScreenWrapper'
 import Typo from '@/components/Typo'
 import { colors, spacingX, spacingY } from '@/constants/theme'
+import { useAuth } from '@/contexts/authContext'
 import { verticalScale } from '@/utils/styling'
 import { useRouter } from 'expo-router'
 import * as Icons from "phosphor-react-native"
 import React, { useRef, useState } from 'react'
 import { Alert, Pressable, StyleSheet, View } from 'react-native'
 
-const register = () => {
+const Register = () => {
   const router = useRouter();
+
+  const { register: registerUser } = useAuth();
 
   const emailRef = useRef("");
   const passwordRef = useRef("");
@@ -23,6 +26,16 @@ const register = () => {
     if (!emailRef.current || !passwordRef.current || !nameRef.current) {
       Alert.alert("Sign up", "Please fill all the fields");
       return;
+    }
+
+    setIsLoading(true);
+
+    const res = await registerUser(emailRef.current, passwordRef.current, nameRef.current);
+
+    setIsLoading(false);
+
+    if (!res.success) {
+      Alert.alert("sign up", res.msg);
     }
   }
 
@@ -71,7 +84,7 @@ const register = () => {
   )
 }
 
-export default register
+export default Register
 
 const styles = StyleSheet.create({
   container: {

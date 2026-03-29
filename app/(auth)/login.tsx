@@ -4,14 +4,17 @@ import Input from '@/components/Input'
 import ScreenWrapper from '@/components/ScreenWrapper'
 import Typo from '@/components/Typo'
 import { colors, spacingX, spacingY } from '@/constants/theme'
+import { useAuth } from '@/contexts/authContext'
 import { verticalScale } from '@/utils/styling'
 import { useRouter } from 'expo-router'
 import * as Icons from "phosphor-react-native"
 import React, { useRef, useState } from 'react'
 import { Alert, Pressable, StyleSheet, View } from 'react-native'
 
-const login = () => {
+const Login = () => {
     const router = useRouter();
+
+    const { login: loginUser } = useAuth();
 
     const emailRef = useRef("");
     const passwordRef = useRef("");
@@ -22,6 +25,16 @@ const login = () => {
         if (!emailRef.current || !passwordRef.current) {
             Alert.alert("Login", "Please fill all the fields");
             return;
+        }
+
+        setIsLoading(true);
+
+        const res = await loginUser(emailRef.current, passwordRef.current);
+
+        setIsLoading(false);
+
+        if (!res.success) {
+            Alert.alert("Login", res.msg);
         }
     }
 
@@ -67,7 +80,7 @@ const login = () => {
     )
 }
 
-export default login
+export default Login
 
 const styles = StyleSheet.create({
     container: {

@@ -130,3 +130,29 @@ export type UserType = {
   name: string | null;
   image?: any;
 } | null;
+
+export type UserDataType = {
+  name: string;
+  image?: any;
+};
+
+export type AuthContextType = {
+  user: UserType;
+  setUser: Function;
+  login: (
+    email: string,
+    password: string,
+  ) => Promise<{ success: boolean; msg?: string }>;
+  register: (
+    email: string,
+    password: string,
+    name: string,
+  ) => Promise<{ success: boolean; msg?: string }>;
+  logout: () => Promise<void>;
+};
+
+export type ResponseType = {
+  success: boolean;
+  data?: any;
+  msg?: string;
+};
