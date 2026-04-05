@@ -1,5 +1,6 @@
 import BackButton from '@/components/BackButton'
 import Button from '@/components/Button'
+import GoogleButton from '@/components/GoogleButton'
 import Input from '@/components/Input'
 import ScreenWrapper from '@/components/ScreenWrapper'
 import Typo from '@/components/Typo'
@@ -71,6 +72,16 @@ const Register = () => {
           <Button loading={isLoading} onPress={handleSubmit}>
             <Typo fontWeight={"700"} size={21} color={colors.white}>Sign up</Typo>
           </Button>
+
+          {/* Divider section */}
+          <View style={styles.dividerContainer}>
+            <View style={styles.divider} />
+            <Typo size={14} color={'#666'}>OR</Typo>
+            <View style={styles.divider} />
+          </View>
+
+          {/* Google Login Button */}
+          <GoogleButton />
         </View>
 
         <View style={styles.footer}>
@@ -98,6 +109,17 @@ const styles = StyleSheet.create({
   },
   form: {
     gap: spacingY._20,
+  },
+  dividerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginVertical: spacingY._10,
+  },
+  divider: {
+    flex: 1,
+    height: 1,
+    backgroundColor: colors.grayLight,
   },
   footer: {
     flexDirection: "row",

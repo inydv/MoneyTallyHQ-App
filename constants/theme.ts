@@ -6,6 +6,8 @@ export const colors = {
   white: "#ffffff",
   black: "#000000",
   red: "#dc2626",
+  grayLight: "#e5e5e5",
+  grayDark: "#666666",
 };
 
 export const spacingX = {
