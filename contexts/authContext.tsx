@@ -22,9 +22,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
                 if (res) {
                     setUser(res);
+                    router.replace("/(tabs)");
+                } else {
+                    router.replace("/(auth)/welcome");
                 }
-
-                router.replace("/(tabs)");
             }
         } catch (error: any) {
             return {

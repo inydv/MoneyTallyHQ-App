@@ -22,7 +22,7 @@ const Welcome = () => {
 
                     <Animated.Image
                         entering={FadeIn.duration(500)}
-                        source={require("../../assets/images/custom-Image/welcome.webp")}
+                        source={require("../../assets/images/welcome.webp")}
                         style={styles.welcomeImage}
                         resizeMode='contain'
                     />

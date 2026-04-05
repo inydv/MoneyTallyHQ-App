@@ -1,11 +1,20 @@
 import { colors } from "@/constants/theme";
-import React from "react";
+import { useRouter } from "expo-router";
+import React, { useEffect } from "react";
 import { Image, StyleSheet, View } from "react-native";
 
 const index = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    setTimeout(() => {
+      router.push("/(auth)/welcome")
+    }, 1500)
+  }, [])
+
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} resizeMode="contain" source={require("../assets/images/custom-Image/logo.webp")} />
+      <Image style={styles.logo} resizeMode="contain" source={require("../assets/images/logo.webp")} />
     </View>
   )
 }
