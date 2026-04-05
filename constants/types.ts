@@ -156,3 +156,10 @@ export type ResponseType = {
   data?: any;
   msg?: string;
 };
+
+export interface Currency {
+  code: string;
+  symbol: string;
+  name: string;
+  countryCode: string;
+}

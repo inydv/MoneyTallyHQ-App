@@ -1,4 +1,4 @@
-import { clearAuthStorage, fetchCsrfToken, signinRequest } from "@/config/api";
+import { checkAuthRequest, clearAuthStorage, fetchCsrfToken, signinRequest } from "@/config/api";
 import { useRouter } from "expo-router";
 import { createContext, useContext, useEffect, useState } from "react";
 import { AuthContextType, UserType } from "../constants/types";
@@ -10,39 +10,35 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const router = useRouter();
 
     useEffect(() => {
-        // checkAuth();
+        checkAuth();
     }, []);
 
-    // const checkAuth = async () => {
-    //     try {
-    //         const token = await getToken();
+    const checkAuth = async () => {
+        try {
+            if (user) {
+                router.replace("/(tabs)");
+            } else {
+                const res = await checkAuthRequest();
 
-    //         if (!token) {
-    //             setUser(null);
-    //             router.replace("/(auth)/welcome");
-    //             return;
-    //         }
+                if (res?.user) {
+                    setUser(res.user);
+                }
 
-    //         const res = await apiRequest("/auth/me", {
-    //             method: "GET",
-    //             auth: true,
-    //         });
-
-    //         setUser(res.user);
-    //         router.replace("/(tabs)");
-    //     } catch (error) {
-    //         await removeToken();
-    //         setUser(null);
-    //         router.replace("/(auth)/welcome");
-    //     }
-    // };
+                router.replace("/(tabs)");
+            }
+        } catch (error: any) {
+            return {
+                success: false,
+                msg: error?.message || "Check auth failed",
+            };
+        }
+    };
 
     const login = async (email: string, password: string) => {
         try {
             await fetchCsrfToken();
             const res = await signinRequest(email, password);
 
-            // adjust this based on your backend response
             if (res?.user) {
                 setUser(res.user);
             }
@@ -62,7 +58,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             await fetchCsrfToken();
             const res = await signinRequest(email, password);
 
-            // adjust this based on your backend response
             if (res?.user) {
                 setUser(res.user);
             }

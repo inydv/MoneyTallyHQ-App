@@ -22,7 +22,7 @@ const Welcome = () => {
 
                     <Animated.Image
                         entering={FadeIn.duration(500)}
-                        source={require("../../assets/images/custom-Image/vecteezy_flat-isometric-concept-illustration-investment-business_6202308.jpg")}
+                        source={require("../../assets/images/custom-Image/welcome.webp")}
                         style={styles.welcomeImage}
                         resizeMode='contain'
                     />

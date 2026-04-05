@@ -5,6 +5,7 @@ export const colors = {
   green: "#428A58",
   white: "#ffffff",
   black: "#000000",
+  red: "#dc2626",
 };
 
 export const spacingX = {

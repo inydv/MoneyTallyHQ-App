@@ -44,6 +44,31 @@ export const fetchCsrfToken = async () => {
   return csrfToken;
 };
 
+export const checkAuthRequest = async () => {
+  let csrfToken = await getCsrfToken();
+
+  if (!csrfToken) {
+    throw new Error("CSRF token is required");
+  }
+
+  const res = await fetch(`${BASE_URL}/auth/user`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      "x-csrf-token": csrfToken,
+    },
+  });
+
+  const data = await res.json().catch(() => null);
+
+  if (!res.ok) {
+    throw new Error(data?.message || "Check auth failed");
+  }
+
+  return data;
+};
+
 export const signinRequest = async (email: string, password: string) => {
   let csrfToken = await getCsrfToken();
 

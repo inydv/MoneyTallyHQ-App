@@ -14,7 +14,7 @@ const index = () => {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} resizeMode="contain" source={require("../assets/images/custom-Image/logo.png")} />
+      <Image style={styles.logo} resizeMode="contain" source={require("../assets/images/custom-Image/logo.webp")} />
     </View>
   )
 }
