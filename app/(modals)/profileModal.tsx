@@ -4,11 +4,11 @@ import Header from '@/components/Header'
 import Input from '@/components/Input'
 import ModalWrapper from '@/components/ModalWrapper'
 import Typo from '@/components/Typo'
+import { updateUserRequest } from '@/config/api'
 import { colors, spacingX, spacingY } from '@/constants/theme'
 import { UserDataType } from '@/constants/types'
 import { useAuth } from '@/contexts/authContext'
 import { getProfileImage } from '@/service/imageService'
-import { updateUser } from '@/service/userService'
 import { scale, verticalScale } from '@/utils/styling'
 import { Image } from 'expo-image'
 import * as ImagePicker from "expo-image-picker"
@@ -18,17 +18,17 @@ import React, { useEffect, useState } from 'react'
 import { Alert, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 
 const ProfileModal = () => {
-    const { user } = useAuth();
+    const { user, setUser } = useAuth();
 
     const router = useRouter();
 
-    const [userData, setUserData] = useState<UserDataType>({ name: "", image: null });
+    const [userData, setUserData] = useState<UserDataType>({ name: "", photoUrl: null });
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setUserData({
             name: user?.name || "",
-            image: user?.image || null
+            photoUrl: user?.photoUrl || null
         })
     }, []);
 
@@ -48,12 +48,12 @@ const ProfileModal = () => {
         });
 
         if (!result.canceled) {
-            setUserData({ ...userData, image: result.assets[0] })
+            setUserData({ ...userData, photoUrl: result.assets[0] })
         }
     }
 
     const onSubmit = async () => {
-        let { name, image } = userData;
+        let { name } = userData;
 
         if (!name.trim()) {
             Alert.alert("User", "Please fill all the fields");
@@ -61,12 +61,15 @@ const ProfileModal = () => {
 
         setLoading(true);
 
-        const res = await updateUser(user?.uid as string, userData);
+        const res = await updateUserRequest(userData);
 
         setLoading(false);
 
         if (res.success) {
-            // checkAuth()''
+            if (res?.user) {
+                setUser(res.user);
+            }
+
             router.back();
         } else {
             Alert.alert("User", res.msg);
@@ -80,7 +83,7 @@ const ProfileModal = () => {
 
                 <ScrollView contentContainerStyle={styles.form}>
                     <View style={styles.avatarContainer}>
-                        <Image style={styles.avatar} source={getProfileImage(userData.image)} contentFit='cover' transition={100} />
+                        <Image style={styles.avatar} source={getProfileImage(userData.photoUrl)} contentFit='cover' transition={100} />
 
                         <TouchableOpacity onPress={onPickImage} style={styles.editIcon}>
                             <Icons.PencilIcon size={verticalScale(20)} color={colors.black} />

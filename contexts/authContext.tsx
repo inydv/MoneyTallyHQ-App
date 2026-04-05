@@ -20,8 +20,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             } else {
                 const res = await checkAuthRequest();
 
-                if (res?.user) {
-                    setUser(res.user);
+                if (res) {
+                    setUser(res);
                 }
 
                 router.replace("/(tabs)");

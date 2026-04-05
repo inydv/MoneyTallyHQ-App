@@ -1,4 +1,6 @@
+import { ResponseType, UserDataType } from "@/constants/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { uploadFileToCloudinary } from "../service/imageService";
 
 const BASE_URL = "https://moneytallyhq.com";
 
@@ -138,4 +140,55 @@ export const signupRequest = async (
   }
 
   return data;
+};
+
+export const updateUserRequest = async (
+  updatedData: UserDataType,
+): Promise<ResponseType> => {
+  try {
+    if (updatedData.photoUrl && updatedData.photoUrl?.uri) {
+      const imageUploadRes = await uploadFileToCloudinary(
+        updatedData.photoUrl,
+        "users",
+      );
+
+      if (!imageUploadRes.success) {
+        return {
+          success: false,
+          msg: imageUploadRes.msg || "Failed to upload image",
+        };
+      }
+
+      updatedData.photoUrl = imageUploadRes.data;
+    }
+
+    let csrfToken = await getCsrfToken();
+
+    if (!csrfToken) {
+      throw new Error("CSRF token is required");
+    }
+
+    const res = await fetch(`${BASE_URL}/api/users/profile`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        "x-csrf-token": csrfToken,
+      },
+      body: JSON.stringify(updatedData),
+    });
+
+    const data = await res.json().catch(() => null);
+
+    console.log({ data });
+
+    if (!res.ok) {
+      throw new Error(data?.message || "Check auth failed");
+    }
+
+    return data;
+  } catch (error: any) {
+    console.log("error updating user: ", error);
+    return { success: false, msg: error?.message };
+  }
 };

@@ -88,7 +88,7 @@ const Profile = () => {
 
                 <View style={styles.userInfo}>
                     <View>
-                        <Image source={getProfileImage(user?.image)} style={styles.avatar} contentFit='cover' transition={100} />
+                        <Image source={getProfileImage(user?.photoUrl)} style={styles.avatar} contentFit='cover' transition={100} />
                     </View>
                     <View style={styles.nameContainer}>
                         <Typo size={24} fontWeight={'600'}>{user?.name}</Typo>

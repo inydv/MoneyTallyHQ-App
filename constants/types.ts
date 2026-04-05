@@ -125,15 +125,14 @@ export type ImageUploadProps = {
 };
 
 export type UserType = {
-  uid?: string;
   email?: string | null;
   name: string | null;
-  image?: any;
+  photoUrl?: any;
 } | null;
 
 export type UserDataType = {
   name: string;
-  image?: any;
+  photoUrl?: any;
 };
 
 export type AuthContextType = {
@@ -154,6 +153,7 @@ export type AuthContextType = {
 export type ResponseType = {
   success: boolean;
   data?: any;
+  user?: any;
   msg?: string;
 };
 
